@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup – ClassPoint Cloud</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- DM Sans Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Socket.io -->
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+    <style>
+      body {
+        font-family: "DM Sans", sans-serif;
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-[#F8FAFC] flex flex-col items-center justify-center min-h-screen px-4"
+  >
+    <!-- Header -->
+    <div class="flex flex-col items-center mb-10 text-center">
+      <h1 class="text-4xl font-bold text-[#1E293B] tracking-tight">
+        Create Account
+      </h1>
+      <p class="text-sm text-[#64748B] mt-2">
+        Start engaging your class instantly
+      </p>
+    </div>
+
+    <!-- Signup Form -->
+    <form class="flex flex-col gap-4 w-full max-w-sm">
+      <input
+        id="full_name"
+        placeholder="Full Name"
+        class="w-full border border-[#D9EAFD] rounded-xl px-4 py-2.5 text-sm text-[#334155]
+               focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition"
+      />
+
+      <input
+        id="email"
+        placeholder="Email"
+        class="w-full border border-[#D9EAFD] rounded-xl px-4 py-2.5 text-sm text-[#334155]
+               focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition"
+      />
+
+      <input
+        id="password"
+        type="password"
+        placeholder="Password"
+        class="w-full border border-[#D9EAFD] rounded-xl px-4 py-2.5 text-sm text-[#334155]
+               focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition"
+      />
+
+      <button
+        id="registerBtn"
+        type="button"
+        class="bg-[#2563EB] text-white font-semibold py-2.5 rounded-xl w-full hover:bg-[#1D4ED8]
+               transition uppercase tracking-wide"
+      >
+        Sign Up
+      </button>
+
+      <p
+        id="msg"
+        class="text-sm text-center font-medium px-3 py-1.5 rounded-full mt-2 hidden"
+      ></p>
+    </form>
+
+    <!-- Footer -->
+    <div
+      class="flex items-center justify-center gap-1 mt-6 text-sm text-[#94A3B8]"
+    >
+      <span>Already have an account?</span>
+      <a
+        href="login.html"
+        class="text-[#2563EB] font-medium hover:underline"
+        >Login</a
+      >
+    </div>
+
+    <!-- Main JS -->
+    <script type="module" src="../assets/js/main.js"></script>
+  </body>
+</html>

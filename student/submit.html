@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submit Word – ClassPoint Cloud</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- DM Sans Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Socket.io -->
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../assets/style.css" />
+
+    <style>
+      body {
+        font-family: "DM Sans", sans-serif;
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-[#F8FAFC] flex flex-col items-center justify-center min-h-screen px-4"
+  >
+    <!-- 🔹 Back Button -->
+    <button
+      onclick="window.location.href='join.html'"
+      class="absolute top-6 left-6 bg-white border border-[#CBD5E1] text-[#2563EB] text-sm font-medium px-4 py-1.5 rounded-full shadow-sm hover:bg-[#EFF6FF] hover:border-[#2563EB] transition flex items-center gap-2"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2"
+        stroke="currentColor"
+        class="w-4 h-4"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+      back to join
+    </button>
+
+    <!-- Header -->
+    <div class="flex flex-col items-center mb-6 text-center">
+      <h1 class="text-4xl font-bold text-[#1E293B] tracking-tight">
+        Submit Your Word
+      </h1>
+      <p id="sessionTitle" class="text-sm text-[#64748B] mt-1"></p>
+      <!-- show session code -->
+      <p
+        id="sessionCodeDisplay"
+        class="text-sm text-[#2563EB] font-medium bg-[#E0F2FE] border border-[#BAE6FD] rounded-full px-4 py-1 mt-2"
+      ></p>
+    </div>
+
+    <!-- 🔹 Slide Preview (appears when teacher uploads) -->
+    <div
+      id="slideContainer"
+      class="hidden flex flex-col items-center mb-8 max-w-xl w-full"
+    >
+      <img
+        id="slideImage"
+        class="rounded-2xl shadow-lg border border-[#CBD5E1] w-full"
+        alt="current slide"
+      />
+      <p class="text-xs text-[#64748B] mt-2">slide shown by your teacher</p>
+    </div>
+
+    <!-- Submission Form -->
+    <form class="flex flex-col gap-4 w-full max-w-sm">
+      <input
+        id="student_name"
+        placeholder="Your Full Name"
+        class="w-full border border-[#D9EAFD] rounded-xl px-4 py-2.5 text-sm text-[#334155]
+               focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition"
+      />
+
+      <input
+        id="word"
+        placeholder="Your Word"
+        class="w-full border border-[#D9EAFD] rounded-xl px-4 py-2.5 text-sm text-[#334155]
+               focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition"
+      />
+
+      <button
+        id="submitBtn"
+        type="button"
+        class="bg-[#2563EB] text-white font-semibold py-2.5 rounded-xl w-full hover:bg-[#1D4ED8]
+               transition uppercase tracking-wide"
+      >
+        Submit
+      </button>
+
+      <p
+        id="status"
+        class="text-sm text-center font-medium px-3 py-1.5 rounded-full mt-2 hidden"
+      ></p>
+    </form>
+
+    <!-- Script -->
+    <script type="module">
+      import { post } from "../assets/js/api.js";
+      import { $, showMsg } from "../assets/js/utils.js";
+
+      // 🔹 base URL from environment (replace process.env manually if needed)
+      const BACKEND_URL =
+        import.meta.env?.VITE_BACKEND_URL ||
+        window.env?.BACKEND_URL ||
+        "http://localhost:5000";
+
+      const socket = io(BACKEND_URL); // env-aware URL
+      const params = new URLSearchParams(window.location.search);
+      const sessionCode = params.get("code");
+
+      const slideContainer = $("slideContainer");
+      const slideImage = $("slideImage");
+      const statusEl = $("status");
+      const nameInput = $("student_name");
+      const wordInput = $("word");
+      const submitBtn = $("submitBtn");
+      const sessionCodeDisplay = $("sessionCodeDisplay");
+
+      // show session code
+      if (sessionCode) {
+        sessionCodeDisplay.textContent = `Session Code: ${sessionCode}`;
+      }
+
+      // join this session
+      socket.emit("join_session", { code: sessionCode });
+
+      // listen for teacher slide image
+      socket.on("slide_image", (data) => {
+        if (data.code !== sessionCode) return;
+        if (!data.slide) return;
+        slideImage.src = `data:image/png;base64,${data.slide}`;
+        slideContainer.classList.remove("hidden");
+        showMsg(statusEl, "activity started — observe the slide!", "green");
+      });
+
+      // handle submit word
+      submitBtn.onclick = async () => {
+        const name = nameInput.value.trim();
+        const word = wordInput.value.trim();
+        if (!name || !word)
+          return showMsg(statusEl, "please enter your name and word", "red");
+
+        try {
+          const res = await post("/student/submit", {
+            code: sessionCode,
+            name,
+            word,
+          });
+
+          if (res.success) {
+            showMsg(statusEl, "word submitted successfully", "green");
+            wordInput.value = "";
+          } else {
+            showMsg(statusEl, res.error || "submission failed", "red");
+          }
+        } catch (err) {
+          console.error(err);
+          showMsg(statusEl, "error submitting word", "red");
+        }
+      };
+    </script>
+  </body>
+</html>

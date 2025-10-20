@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Join Session – ClassPoint Cloud</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- DM Sans Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Socket.io -->
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="../assets/style.css" />
+
+    <style>
+      body {
+        font-family: "DM Sans", sans-serif;
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-[#F8FAFC] flex flex-col items-center justify-center min-h-screen px-4"
+  >
+    <!-- Header -->
+    <div class="flex flex-col items-center mb-10 text-center">
+      <h1 class="text-4xl font-bold text-[#1E293B] tracking-tight">
+        Join Session
+      </h1>
+      <p class="text-sm text-[#64748B] mt-2">
+        Enter your session code to participate
+      </p>
+    </div>
+
+    <!-- Join Form -->
+    <form class="flex flex-col gap-4 w-full max-w-sm">
+      <input
+        id="session_code"
+        placeholder="Session Code"
+        class="w-full border border-[#D9EAFD] rounded-xl px-4 py-2.5 text-sm text-[#334155]
+               focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition uppercase text-center"
+      />
+
+      <button
+        id="joinBtn"
+        type="button"
+        class="bg-[#2563EB] text-white font-semibold py-2.5 rounded-xl w-full hover:bg-[#1D4ED8]
+               transition uppercase tracking-wide"
+      >
+        Join
+      </button>
+
+      <p
+        id="msg"
+        class="text-sm text-center font-medium px-3 py-1.5 rounded-full mt-2 hidden"
+      ></p>
+    </form>
+
+    <!-- JS -->
+    <script>
+      const joinBtn = document.getElementById("joinBtn");
+      const sessionInput = document.getElementById("session_code");
+      const msg = document.getElementById("msg");
+
+      function showMsg(text, color) {
+        msg.textContent = text;
+        msg.style.backgroundColor = color === "red" ? "#FEE2E2" : "#DCFCE7";
+        msg.style.color = color === "red" ? "#B91C1C" : "#166534";
+        msg.classList.remove("hidden");
+      }
+
+      joinBtn.onclick = () => {
+        const code = sessionInput.value.trim();
+        if (!code) return showMsg("please enter a session code", "red");
+
+        // redirect to submit.html with ?code=CODE param
+        window.location.href = `submit.html?code=${encodeURIComponent(code)}`;
+      };
+    </script>
+  </body>
+</html>

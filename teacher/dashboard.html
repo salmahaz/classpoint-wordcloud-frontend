@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard – ClassPoint Cloud</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/style.css" />
+
+    <style>
+      body {
+        font-family: "DM Sans", sans-serif;
+      }
+    </style>
+  </head>
+
+  <body class="bg-[#F8FAFC] min-h-screen flex items-center justify-center px-4">
+    <div class="w-full max-w-5xl flex flex-col items-center">
+      <header class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-[#1E293B] tracking-tight">
+          Live Word Cloud
+        </h1>
+        <p class="text-sm text-[#64748B] mt-1">
+          Manage your session in real time
+        </p>
+      </header>
+
+      <section
+        class="w-full flex flex-col sm:flex-row items-center justify-between mb-6 gap-4"
+      >
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <label
+            class="flex items-center gap-2 text-sm text-[#334155] cursor-pointer"
+          >
+            <input
+              type="checkbox"
+              id="showTopOnly"
+              class="w-4 h-4 accent-[#2563EB]"
+            />
+            Show Only Most Frequent Word
+          </label>
+
+          <button
+            id="toggleCloudBtn"
+            class="bg-[#94A3B8] text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-[#64748B] transition"
+          >
+            Hide Cloud Responses
+          </button>
+        </div>
+
+        <div
+          class="flex flex-wrap justify-center sm:justify-end gap-2 text-xs font-medium"
+        >
+          <span
+            id="badge-time"
+            class="px-3 py-1.5 bg-[#F1F5F9] text-[#1E293B] rounded-full"
+            >⏱ Total Time: 0s</span
+          >
+          <span
+            id="badge-code"
+            class="px-3 py-1.5 bg-[#F1F5F9] text-[#1E293B] rounded-full"
+            >🔤 Session Code: —</span
+          >
+          <span
+            id="badge-responses"
+            class="px-3 py-1.5 bg-[#F1F5F9] text-[#1E293B] rounded-full"
+            >💬 Responses: 0</span
+          >
+          <span
+            id="badge-students"
+            class="px-3 py-1.5 bg-[#F1F5F9] text-[#1E293B] rounded-full"
+            >👩‍🎓 Students: 0</span
+          >
+        </div>
+      </section>
+
+      <main
+        class="flex flex-col sm:flex-row gap-6 w-full max-w-4xl items-stretch"
+      >
+        <!-- left section: word cloud + export button -->
+        <section
+          class="flex-1 border border-dashed border-[#CBD5E1] rounded-2xl flex flex-col items-center justify-start bg-white shadow-sm h-[380px] p-4"
+        >
+          <!-- insert-slide button (appears dynamically here) -->
+          <div
+            id="slideExportContainer"
+            class="w-full text-center mb-2 hidden"
+          ></div>
+
+          <!-- the actual canvas -->
+          <div class="flex-1 flex items-center justify-center w-full">
+            <canvas id="wordCloudCanvas" width="400" height="300"></canvas>
+          </div>
+        </section>
+
+        <!-- right sidebar -->
+        <aside
+          class="w-full sm:w-[250px] bg-white border border-[#CBD5E1] rounded-2xl p-5 flex flex-col justify-between shadow-sm"
+        >
+          <div class="flex flex-col gap-3">
+            <label
+              for="word_limit"
+              class="text-sm text-[#64748B] font-medium tracking-wide"
+              >Word Limit</label
+            >
+            <select
+              id="word_limit"
+              class="border border-[#CBD5E1] rounded-lg px-3 py-1.5 text-sm text-[#1E293B] focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3" selected>3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+
+            <button
+              id="createSessionBtn"
+              class="bg-[#2563EB] text-white font-semibold py-2 rounded-xl w-full hover:bg-[#1D4ED8] transition uppercase tracking-wide mt-4"
+            >
+              Start Activity
+            </button>
+
+            <div id="activeBtns" class="hidden flex-col gap-3 mt-3">
+              <button
+                id="startBtn"
+                class="bg-green-500 text-white font-semibold py-2 rounded-xl w-full hover:bg-green-600 transition uppercase tracking-wide"
+              >
+                Start
+              </button>
+
+              <button
+                id="endBtn"
+                class="bg-red-500 text-white font-semibold py-2 rounded-xl w-full hover:bg-red-600 transition uppercase tracking-wide"
+              >
+                End
+              </button>
+            </div>
+
+            <button
+              id="viewResponsesBtn"
+              class="hidden bg-[#FACC15] text-[#1E293B] font-semibold py-2 rounded-xl w-full hover:bg-[#EAB308] transition uppercase tracking-wide shadow-sm mt-3"
+            >
+              View Responses
+            </button>
+          </div>
+
+          <div class="flex flex-col items-center text-center mt-4">
+            <p
+              id="sessionCode"
+              class="text-sm font-medium text-[#1E293B] bg-[#E2E8F0] rounded-full px-4 py-1 mt-2 hidden"
+            ></p>
+            <p id="timer" class="text-sm text-[#2563EB] font-medium mt-2"></p>
+            <p id="duration" class="text-sm text-[#64748B] mt-1"></p>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script type="module" src="../assets/js/main.js"></script>
+  </body>
+</html>
