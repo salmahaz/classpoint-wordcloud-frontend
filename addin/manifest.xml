@@ -1,21 +1,50 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+           xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
            xsi:type="TaskPaneApp">
-  <Id>c1b5d2b9-b8f0-4c1d-b88c-f4e2f47b3204</Id>
+
+  <Id>f7c23854-12f5-4d0e-9a6e-9c218ae0d59b</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>ClassPoint Cloud</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="ClassPoint Cloud" />
-  <Description DefaultValue="Create live word clouds directly from your slides." />
+  <DisplayName>ClassPoint Word Cloud</DisplayName>
+  <Description>Insert and manage live word clouds directly in PowerPoint.</Description>
 
   <Hosts>
     <Host Name="Presentation" />
   </Hosts>
 
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://classpoint-wordcloud-app.vercel.app/addin/taskpane.html"/>
+    <SourceLocation DefaultValue="https://classpoint-wordcloud.vercel.app/addin/login.html" />
   </DefaultSettings>
 
   <Permissions>ReadWriteDocument</Permissions>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Hosts>
+      <Host xsi:type="Presentation">
+        <Runtimes>
+          <Runtime resid="Taskpane.Url" lifetime="long" />
+        </Runtimes>
+
+        <ExtensionPoint xsi:type="PrimaryCommandSurface">
+          <OfficeTab id="TabHome">
+            <Group id="ClassPointGroup" label="ClassPoint Cloud">
+              <Control xsi:type="Button" id="OpenCloudButton"
+                       label="Open Word Cloud"
+                       onAction="showTaskPane"/>
+            </Group>
+          </OfficeTab>
+        </ExtensionPoint>
+      </Host>
+    </Hosts>
+
+    <Resources>
+      <bt:Urls>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://classpoint-wordcloud.vercel.app/addin/login.html"/>
+      </bt:Urls>
+    </Resources>
+  </VersionOverrides>
 </OfficeApp>
