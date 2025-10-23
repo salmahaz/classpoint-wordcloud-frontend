@@ -10,14 +10,14 @@
   <ProviderName>ClassPoint Cloud</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName>ClassPoint Word Cloud</DisplayName>
-  <Description>Insert and manage live word clouds directly in PowerPoint.</Description>
+  <Description>Insert and manage live word clouds directly in PowerPoint</Description>
 
   <Hosts>
     <Host Name="Presentation" />
   </Hosts>
 
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://classpoint-wordcloud.vercel.app/addin/login.html" />
+    <SourceLocation DefaultValue="https://classpoint-wordcloud.vercel.app/addin/index.html" />
   </DefaultSettings>
 
   <Permissions>ReadWriteDocument</Permissions>
@@ -43,7 +43,7 @@
 
     <Resources>
       <bt:Urls>
-        <bt:Url id="Taskpane.Url" DefaultValue="https://classpoint-wordcloud.vercel.app/addin/login.html"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://classpoint-wordcloud.vercel.app/addin/index.html"/>
       </bt:Urls>
     </Resources>
   </VersionOverrides>

@@ -1,7 +1,12 @@
+/* Import DM Sans font */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
 body {
   font-family: "DM Sans", sans-serif;
   padding: 20px;
   color: #1e293b;
+  background: #f8fafc;
+  margin: 0;
 }
 
 h2, h3 {
@@ -16,6 +21,13 @@ input, select, button {
   border-radius: 8px;
   border: 1px solid #cbd5e1;
   font-size: 0.95rem;
+  font-family: "DM Sans", sans-serif;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 button {
@@ -26,14 +38,68 @@ button {
   margin-top: 15px;
   transition: 0.2s ease;
   cursor: pointer;
+  font-family: "DM Sans", sans-serif;
 }
 
 button:hover {
   background-color: #1d4ed8;
 }
 
+button:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
 #msg, #status {
   margin-top: 15px;
   font-size: 0.9rem;
   color: #64748b;
+}
+
+/* Additional styles for better Office add-in experience */
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.message {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.message.error {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.message.success {
+  background-color: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+.loading {
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+  padding: 20px;
+}
+
+/* Responsive design for Office add-in */
+@media (max-width: 400px) {
+  body {
+    padding: 10px;
+  }
+  
+  .container {
+    padding: 20px;
+  }
 }

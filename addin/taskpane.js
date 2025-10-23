@@ -23,9 +23,9 @@ async function startSession() {
     const data = await res.json();
     if (!data.success) return (status.textContent = data.error || "failed to start");
 
-    status.textContent = `✅ session started (limit: ${wordLimit} words) | code: ${data.code}`;
+    status.textContent = `session started (limit: ${wordLimit} words) | code: ${data.code}`;
   } catch (err) {
-    status.textContent = "❌ failed to start session (network error)";
+    status.textContent = "failed to start session (network error)";
   }
 }
 
@@ -49,8 +49,8 @@ async function insertWordCloud() {
       await context.sync();
     });
 
-    status.textContent = "✅ inserted successfully!";
+    status.textContent = "inserted successfully!";
   } catch (err) {
-    status.textContent = "❌ failed to insert image.";
+    status.textContent = "failed to insert image.";
   }
 }
