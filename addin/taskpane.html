@@ -9,22 +9,29 @@
   </head>
 
   <body>
-    <h3>classpoint cloud</h3>
-    <p>manage your live word cloud session</p>
+    <div id="authCheck" style="display: none;">
+      <p>Checking authentication...</p>
+    </div>
 
-    <label for="wordLimit">word limit per student:</label>
-    <select id="wordLimit">
-      <option value="1">1 word</option>
-      <option value="2">2 words</option>
-      <option value="3" selected>3 words</option>
-      <option value="5">5 words</option>
-      <option value="10">10 words</option>
-    </select>
+    <div id="mainContent">
+      <h3>classpoint cloud</h3>
+      <p>manage your live word cloud session</p>
 
-    <button id="startBtn">start session</button>
-    <button id="insertBtn">insert cloud slide</button>
+      <label for="wordLimit">word limit per student:</label>
+      <select id="wordLimit">
+        <option value="1">1 word</option>
+        <option value="2">2 words</option>
+        <option value="3" selected>3 words</option>
+        <option value="5">5 words</option>
+        <option value="10">10 words</option>
+      </select>
 
-    <p id="status"></p>
-    <img id="preview" style="max-width: 100%; margin-top: 10px;" />
+      <button id="startBtn">start session</button>
+      <button id="insertBtn">insert cloud slide</button>
+      <button id="logoutBtn" style="margin-top: 10px; background-color: #dc2626;">Logout</button>
+
+      <p id="status"></p>
+      <img id="preview" style="max-width: 100%; margin-top: 10px; display: none;" />
+    </div>
   </body>
 </html>

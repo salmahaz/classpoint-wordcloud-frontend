@@ -2,16 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>login – classpoint cloud</title>
+    <title>ClassPoint Word Cloud</title>
     <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
     <script src="login.js"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h2>teacher login</h2>
-    <input id="email" placeholder="email" />
-    <input id="password" type="password" placeholder="password" />
-    <button id="loginBtn">login</button>
-    <p id="msg"></p>
+    <!-- Login Section -->
+    <div id="loginSection">
+      <h2>Teacher Login</h2>
+      <p id="msg"></p>
+      <input id="email" placeholder="Email" />
+      <input id="password" type="password" placeholder="Password" />
+      <button id="loginBtn">Login</button>
+      <p style="text-align: center; margin-top: 15px;">
+        <a href="#" id="showSignup" style="color: #2563eb; text-decoration: none;">Don't have an account? Sign Up</a>
+      </p>
+    </div>
+
+    <!-- Signup Section -->
+    <div id="signupSection" style="display: none;">
+      <h2>Create Account</h2>
+      <p id="signupMsg"></p>
+      <input id="signupName" placeholder="Full Name" />
+      <input id="signupEmail" placeholder="Email" />
+      <input id="signupPassword" type="password" placeholder="Password" />
+      <button id="signupBtn">Sign Up</button>
+      <p style="text-align: center; margin-top: 15px;">
+        <a href="#" id="showLogin" style="color: #2563eb; text-decoration: none;">Already have an account? Login</a>
+      </p>
+    </div>
   </body>
 </html>

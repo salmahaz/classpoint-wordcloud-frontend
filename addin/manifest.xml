@@ -17,7 +17,7 @@
   </Hosts>
 
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://classpoint-wordcloud.vercel.app/addin/index.html" />
+    <SourceLocation DefaultValue="https://classpoint-wordcloud.vercel.app/addin/login.html" />
   </DefaultSettings>
 
   <Permissions>ReadWriteDocument</Permissions>
@@ -43,7 +43,7 @@
 
     <Resources>
       <bt:Urls>
-        <bt:Url id="Taskpane.Url" DefaultValue="https://classpoint-wordcloud.vercel.app/addin/index.html"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://classpoint-wordcloud.vercel.app/addin/login.html"/>
       </bt:Urls>
     </Resources>
   </VersionOverrides>
